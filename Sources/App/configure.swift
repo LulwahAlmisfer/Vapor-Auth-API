@@ -17,6 +17,8 @@ public func configure(_ app: Application) throws {
 
    
 
+    app.migrations.add(CreateSongs())
+    try app.autoMigrate().wait()
     // register routes
     try routes(app)
 }
