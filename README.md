@@ -4,7 +4,7 @@ Vapor is an HTTP web framework for Swift.
 Simple API to create,add,update and delete songs.
 
 URL : https://songsapi.fly.dev/songs   
-
+Host : https://fly.io
 
 #### Routes API
 #### songs
@@ -18,9 +18,10 @@ https://songsapi.fly.dev/songs/ | `PUT` | Update data of a song
 
 ### Database
 
-Postgress
+PostgreSQL
 
 ## Tools
 Docker
 
 Postman
+
