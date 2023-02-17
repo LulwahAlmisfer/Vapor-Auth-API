@@ -3,9 +3,9 @@
 <h1>Listen to 🎵</h1>
 
 #if(songs):
-    <table>
+    <table class="table table-bordered table-hover">
 
-         <thead>
+         <thead class="table-light">
          <tr><th>Song Title</th></tr>
         </thead> 
         <tbody>

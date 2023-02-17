@@ -8,8 +8,8 @@
 import Vapor
 struct WebsiteController: RouteCollection {
     func boot(routes: Vapor.RoutesBuilder) throws {
-        let songs = routes.grouped("songs")
-        songs.get( use: indexHandler)
+      //  let songs = routes.grouped("songs")
+        routes.get( use: indexHandler)
     }
     
     func indexHandler(_ req: Request) throws -> EventLoopFuture<View> {
