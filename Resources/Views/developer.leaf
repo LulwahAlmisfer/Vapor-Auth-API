@@ -1,0 +1,12 @@
+#extend("base"):
+#export("content"):
+
+<h2>Developer: Lulwah Almisfer</h2>
+<a href="https://github.com/LulwahAlmisfer">Developer GitHub</a>
+<br>
+<a href="https://github.com/LulwahAlmisfer/Vapor-FirstAPI">Backend repo</a>
+<br>
+<a href="https://github.com/mikaelacaron">Learned from Mikaela Caron</a>
+
+#endexport
+#endextend
