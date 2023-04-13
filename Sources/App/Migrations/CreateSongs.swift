@@ -13,6 +13,7 @@ struct CreateSongs : AsyncMigration  {
         try await database.schema("songs")
             .id()
             .field("title", .string, .required)
+            .field("userID", .uuid, .required, .references("users", "id"))
             .create()
     }
     

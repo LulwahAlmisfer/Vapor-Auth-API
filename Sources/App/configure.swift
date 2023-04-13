@@ -35,8 +35,13 @@ public func configure(_ app: Application) throws {
   
 
    
-
+  //should be first scince songs are dependent on user
+    app.migrations.add(CreateUser())
     app.migrations.add(CreateSongs())
+    
+    
+    app.migrations.add(CreateToken())
+    
     try app.autoMigrate().wait()
     // register routes
      try routes(app)

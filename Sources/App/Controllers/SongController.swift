@@ -3,7 +3,6 @@
 //  
 //
 //  Created by lulwah on 29/01/2023.
-//test
 
 import Fluent
 import Vapor
@@ -11,24 +10,38 @@ import Vapor
 struct SongController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let songs = routes.grouped("songs")
-        songs.get(use: index)
-        songs.post(use: create)
-        songs.put(use: update)
-        songs.group(":songID") { song in
-                 song.delete(use: delete)
+      
+        
+        
+        
+        let tokenAuthMiddleware = Token.authenticator()
+        let guardAuthMiddleware = User.guardMiddleware()
+        let tokenAuthGroup =  songs.grouped(tokenAuthMiddleware, guardAuthMiddleware)
+        
+        tokenAuthGroup.get(use: index)
+        tokenAuthGroup.post(use: create)
+        tokenAuthGroup.put(use: update)
+        tokenAuthGroup.group(":songID") { songAuth in
+            songAuth.delete(use: delete)
              }
     }
     
     
     // GET Request /songs route
     func index(req: Request) async throws -> [Song] {
-        try await Song.query(on: req.db).all()
+        let user = try req.auth.require(User.self)
+        let userID = try user.requireID()
+        
+     return  try await Song.query(on: req.db) .filter(\.$user.$id == userID).all()
     }
+
+    
     
     // POST Request /songs route
     func create(req: Request) async throws -> HTTPStatus {
-        let song = try req.content.decode(Song.self)
-        
+        let data = try req.content.decode(CreateSongData.self)
+        let user = try req.auth.require(User.self)
+        let song = try Song(title: data.title, userID: user.requireID())
         try await song.save(on: req.db)
         return .ok
     }
@@ -55,4 +68,11 @@ struct SongController: RouteCollection {
         try await song.delete(on: req.db)
         return .ok
     }
+}
+
+
+
+
+struct CreateSongData: Content {
+    let title: String
 }
