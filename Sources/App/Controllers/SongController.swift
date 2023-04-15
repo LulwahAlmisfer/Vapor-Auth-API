@@ -39,8 +39,8 @@ struct SongController: RouteCollection {
     
     // POST Request /songs route
     func create(req: Request) async throws -> HTTPStatus {
-        let data = try req.content.decode(CreateSongData.self)
         let user = try req.auth.require(User.self)
+        let data = try req.content.decode(CreateSongData.self)
         let song = try Song(title: data.title, userID: user.requireID())
         try await song.save(on: req.db)
         return .noContent
@@ -48,6 +48,7 @@ struct SongController: RouteCollection {
     
     // PUT Request /songs routes
     func update(req: Request) async throws -> HTTPStatus {
+        try req.auth.require(User.self)
         let song = try req.content.decode(Song.self)
         
         guard let songFromDB = try await Song.find(song.id, on: req.db) else {
@@ -61,6 +62,7 @@ struct SongController: RouteCollection {
     
     // DELETE Request /songs/id route
     func delete(req: Request) async throws -> HTTPStatus {
+        try req.auth.require(User.self)
         guard let song = try await Song.find(req.parameters.get("songID"), on: req.db) else {
             throw Abort(.notFound)
         }
