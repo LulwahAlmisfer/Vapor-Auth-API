@@ -43,7 +43,7 @@ struct SongController: RouteCollection {
         let user = try req.auth.require(User.self)
         let song = try Song(title: data.title, userID: user.requireID())
         try await song.save(on: req.db)
-        return .ok
+        return .noContent
     }
     
     // PUT Request /songs routes
@@ -56,7 +56,7 @@ struct SongController: RouteCollection {
         
         songFromDB.title = song.title
         try await songFromDB.update(on: req.db)
-        return .ok
+        return .noContent
     }
     
     // DELETE Request /songs/id route
@@ -66,7 +66,7 @@ struct SongController: RouteCollection {
         }
         
         try await song.delete(on: req.db)
-        return .ok
+        return .noContent
     }
 }
 
