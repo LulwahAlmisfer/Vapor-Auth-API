@@ -1,3 +1,6 @@
+// Vapor-FirstAPI
+// Copyright (c) 2023 lulwah
+
 @testable import App
 import XCTVapor
 

@@ -1,14 +1,9 @@
-//
-//  CreateSongs.swift
-//  
-//
-//  Created by lulwah on 29/01/2023.
-//
+// Vapor-FirstAPI
+// Copyright (c) 2023 lulwah
 
 import Fluent
 
-struct CreateSongs : AsyncMigration  {
-    
+struct CreateSongs: AsyncMigration {
     func prepare(on database: Database) async throws {
         try await database.schema("songs")
             .id()
@@ -16,9 +11,8 @@ struct CreateSongs : AsyncMigration  {
             .field("userID", .uuid, .required, .references("users", "id"))
             .create()
     }
-    
+
     func revert(on database: Database) async throws {
         try await database.schema("songs").delete()
     }
-    
 }
