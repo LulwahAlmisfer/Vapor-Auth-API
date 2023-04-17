@@ -1,7 +1,10 @@
+// Vapor-FirstAPI
+// Copyright (c) 2023 lulwah
+
 import Fluent
 import FluentPostgresDriver
-import Vapor
 import Leaf
+import Vapor
 
 // configures your application
 public func configure(_ app: Application) throws {
@@ -9,15 +12,15 @@ public func configure(_ app: Application) throws {
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
     if let databaseURL = Environment.get("DATABASE_URL") {
-       try app.databases.use(.postgres(url: databaseURL), as: .psql)
-        
+        try app.databases.use(.postgres(url: databaseURL), as: .psql)
+
 //        var postgresConfig = PostgresConfiguration(url: databaseURL )
 //            var tlsC = TLSConfiguration.makeClientConfiguration()
 //            tlsC.certificateVerification = .none
 //            postgresConfig?.tlsConfiguration = tlsC
 //            try app.databases.use(.postgres(configuration: postgresConfig!), as: .psql)
 //
-        
+
     } else {
         // Handle missing DATABASE_URL here...
         //
@@ -32,19 +35,15 @@ public func configure(_ app: Application) throws {
             database: Environment.get("DATABASE_NAME") ?? "vapor_database"
         ), as: .psql)
     }
-  
 
-   
-  //should be first scince songs are dependent on user
+    // should be first since songs are dependent on user
     app.migrations.add(CreateUser())
     app.migrations.add(CreateSongs())
-    
-    
+
     app.migrations.add(CreateToken())
-    
+
     try app.autoMigrate().wait()
     // register routes
-     try routes(app)
+    try routes(app)
     app.views.use(.leaf)
-    
 }

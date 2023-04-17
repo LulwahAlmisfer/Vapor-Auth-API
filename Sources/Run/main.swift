@@ -1,3 +1,6 @@
+// Vapor-FirstAPI
+// Copyright (c) 2023 lulwah
+
 import App
 import Vapor
 
