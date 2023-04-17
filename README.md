@@ -14,3 +14,5 @@ Docker
 
 Postman
 
+## Credits
+Thanks to [Tito Ciuro](https://github.com/tciuro) for corrections and improvements.
